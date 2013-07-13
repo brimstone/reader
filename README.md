@@ -3,10 +3,8 @@ Feed Reader, because the world needs another
 
 # Deploy
 
-<code>
-npm install
+<code>npm install</code>
 
-bower install
+<code>bower install</code>
 
-node_modules/naught/lib/main.js start index.js
-</code>
+<code>node_modules/naught/lib/main.js start index.js</code>
