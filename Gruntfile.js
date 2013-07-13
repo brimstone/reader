@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			gruntfile: ['Gruntfile.js'],
-			libs_n_tests: ['static/js/*.js'],
+			libs_n_tests: ['static/js/*.js', 'index.js'],
 			options: {
 				curly: true,
 				eqeqeq: true,
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
 			},
 			naught: {
 				files:	['index.js'],
-				tasks: ['bgShell:deploy'],
+				tasks: ['jshint', 'bgShell:deploy'],
 			},
 		},
 	});
