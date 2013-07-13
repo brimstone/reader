@@ -20,13 +20,13 @@ module.exports = function(grunt) {
 					compress: true
 				},
 				files: {
-					'css/all.css': ['less/manifest.less']
+					'static/css/all.css': ['less/manifest.less']
 				}
 			}
 		},
 		jshint: {
 			gruntfile: ['Gruntfile.js'],
-			libs_n_tests: ['js/*.js'],
+			libs_n_tests: ['static/js/*.js'],
 			options: {
 				curly: true,
 				eqeqeq: true,
@@ -42,6 +42,12 @@ module.exports = function(grunt) {
 				node: true,
 				}
 			},
+		bgShell: {
+			deploy: {
+				cmd: "node_modules/naught/lib/main.js deploy",
+				bg: false,
+			},
+		},
 		watch: {
 			gruntfile: {
 				files: ['<%= jshint.gruntfile %>'],
@@ -55,6 +61,10 @@ module.exports = function(grunt) {
 				files: ['less/*.less'],
 				tasks: ['recess'],
 			},
+			naught: {
+				files:	['index.js'],
+				tasks: ['bgShell:deploy'],
+			},
 		},
 	});
 
@@ -63,6 +73,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-recess');
+	grunt.loadNpmTasks('grunt-bg-shell');
 
 	// "npm test" runs these tasks
 	grunt.registerTask('test', ['jshint']);

@@ -1,2 +1,6 @@
+*.swp
 bower_components
 node_modules
+naught.log
+stderr.og
+stdout.log
