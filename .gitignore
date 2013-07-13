@@ -2,5 +2,5 @@
 bower_components
 node_modules
 naught.log
-stderr.og
+stderr.log
 stdout.log
