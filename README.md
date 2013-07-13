@@ -5,6 +5,8 @@ Feed Reader, because the world needs another
 
 <code>
 npm install
+
 bower install
+
 node_modules/naught/lib/main.js start index.js
 </code>
