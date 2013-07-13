@@ -7,6 +7,35 @@ var server = restify.createServer({
 	version: '1.0.0',
 });
 
+// Redirect /api to /
+// This should probably go to /docs or something, for a proper api
+server.get("/", function(req, res, next){
+	res.header("Location", "/");
+	res.send(302);
+	return next();
+});
+
+// Modelled after http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
+// CREATE
+
+// READ
+
+// TODO Returns a list of lists
+server.get("/lists", function(req, res, next){
+	res.send(200, [{list: "This is a list!"}]);
+	return next();
+});
+
+// TODO Returns information about a single list
+
+// TODO Returns list of items for a list
+
+// TODO Returns information about an item
+
+// UPDATE
+
+// DELETE
+
 // ...
 
 // Connect config here
@@ -22,12 +51,11 @@ var connectApp = connect()
 	});
 
 connectApp.listen(8080, function(){
-	if (process.send) process.send('online');
+	if (process.send) { process.send('online');}
 });
 
 process.on('message', function(message) {
 	if (message === 'shutdown') {
-		performCleanup();
 		process.exit(0);
 	}
 });
