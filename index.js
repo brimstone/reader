@@ -12,7 +12,14 @@ var Feed = schema.define('Feeds', {
 	title:			{ type: String, length: 255 },
 	link:			{ type: Schema.Text },
 	lastchecked:	{ type: Date,		default: Date.now },
-	added:			{ type: Number,		default: Date.now },
+	added:			{ type: Date,		default: Date.now },
+});
+
+// taken from http://jugglingdb.co/schema.3.html
+schema.isActual(function(err, actual) {
+    if (!actual) {
+        schema.autoupdate();
+    }
 });
 
 // Restify server config here
@@ -35,10 +42,16 @@ server.get("/", function(req, res, next){
 // New feed
 server.post("/feeds/create", function(req, res, next){
 	if (req.body.url) {
-		var feed = new Feed;
+		var feed = new Feed();
 		feed.link = req.body.url;
-		feed.save(console.log);
-		res.send(200, "success");
+		feed.save(function(err){
+			if (!err) {
+				res.send(200, "success");
+			}
+			else {
+				res.send(500, err);
+			}
+		});
 	}
 	res.send(200, "No url in post data");
 	return next();
@@ -48,8 +61,11 @@ server.post("/feeds/create", function(req, res, next){
 
 // TODO Returns a list of feeds
 server.get("/feeds", function(req, res, next){
-	res.send(200, "poop");
-	return next();
+	Feed.all(function(err, feeds){
+		console.log(feeds);
+		res.send(200, feeds);
+		return next();
+	});
 });
 
 // TODO Returns information about a single feed
