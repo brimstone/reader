@@ -1,6 +1,20 @@
 var restify = require('restify'),
 	connect = require('connect');
 
+var Schema = require('jugglingdb').Schema;
+var schema = new Schema('mysql', {
+	database: 'reader',
+	username: 'root'
+});
+
+var Feed = schema.define('Feeds', {
+	id:				{ type: Number},
+	title:			{ type: String, length: 255 },
+	link:			{ type: Schema.Text },
+	lastchecked:	{ type: Date,		default: Date.now },
+	added:			{ type: Number,		default: Date.now },
+});
+
 // Restify server config here
 var server = restify.createServer({
 	name: 'restify-test',
@@ -18,17 +32,33 @@ server.get("/", function(req, res, next){
 // Modelled after http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
 // CREATE
 
-// READ
-
-// TODO Returns a list of lists
-server.get("/lists", function(req, res, next){
-	res.send(200, [{list: "This is a list!"}]);
+// New feed
+server.post("/feeds/create", function(req, res, next){
+	if (req.body.url) {
+		var feed = new Feed;
+		feed.link = req.body.url;
+		feed.save(console.log);
+		res.send(200, "success");
+	}
+	res.send(200, "No url in post data");
 	return next();
 });
 
-// TODO Returns information about a single list
+// READ
 
-// TODO Returns list of items for a list
+// TODO Returns a list of feeds
+server.get("/feeds", function(req, res, next){
+	res.send(200, "poop");
+	return next();
+});
+
+// TODO Returns information about a single feed
+server.get("/feeds/:feed", function(req, res, next){
+	res.send(200, [{feed: req.params.feed}]);
+	return next();
+});
+
+// TODO Returns list of items for a feed
 
 // TODO Returns information about an item
 
