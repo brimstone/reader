@@ -8,12 +8,22 @@ var schema = new Schema('mysql', {
 });
 
 var Feed = schema.define('Feeds', {
-	id:				{ type: Number},
+	id:				{ type: Number },
 	title:			{ type: String, length: 255 },
 	link:			{ type: Schema.Text },
 	lastchecked:	{ type: Date,		default: Date.now },
 	added:			{ type: Date,		default: Date.now },
 });
+var Item = schema.define('Items', {
+	id:				{ type: Number },
+	feedId:			{ type: Number },
+	title:			{ type: String, length: 255 },
+	link:			{ type: Schema.Text },
+	author:			{ type: String, length: 255 },
+	added:			{ type: Date,		default: Date.now },
+});
+
+Item.belongsTo(Feed, {foreignKey: 'feedId'});
 
 // taken from http://jugglingdb.co/schema.3.html
 schema.isActual(function(err, actual) {
@@ -40,21 +50,21 @@ server.get("/", function(req, res, next){
 // CREATE
 
 // New feed
-server.post("/feeds/create", function(req, res, next){
-	if (req.body.url) {
-		var feed = new Feed();
-		feed.link = req.body.url;
-		feed.save(function(err){
-			if (!err) {
-				res.send(200, "success");
-			}
-			else {
-				res.send(500, err);
-			}
-		});
+server.put("/feeds", function(req, res, next){
+	if (!req.body.url) {
+		res.send(200, "No url in post data");
+		return next();
 	}
-	res.send(200, "No url in post data");
-	return next();
+	var feed = new Feed();
+	feed.link = req.body.url;
+	feed.save(function(err){
+		if (!err) {
+			res.send(200, "success");
+		}
+		else {
+			res.send(500, err);
+		}
+	});
 });
 
 // READ
@@ -91,7 +101,7 @@ server.del("/feeds/:id", function(req, res, next){
 		if (err) {
 			res.send(500, err);
 			return next();
-		};
+		}
 		// delete the feed
 		feed.destroy(function(err) {
 			if (err) {
