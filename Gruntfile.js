@@ -56,6 +56,28 @@ module.exports = function(grunt) {
 				bg: false,
 			},
 		},
+		ngmin: {
+			controllers: {
+				src: ['js/controllers/one.js'],
+				dest: 'test/generated/controllers/one.js'
+			},
+			directives: {
+				expand: true,
+				cwd: 'test/src',
+				src: ['directives/**/*.js'],
+				dest: 'test/generated'
+			}
+		},
+		uglify: {
+			options: {
+				mangle: false
+			},
+			my_target: {
+				files: {
+					'static/js/all.js': [ 'js/app.js' ]
+				}
+			}
+		},
 		watch: {
 			gruntfile: {
 				files: ['<%= jshint.gruntfile %>'],
@@ -82,6 +104,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-recess');
 	grunt.loadNpmTasks('grunt-bg-shell');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-ngmin');
 
 	// "npm test" runs these tasks
 	grunt.registerTask('test', ['jshint']);
@@ -89,8 +113,8 @@ module.exports = function(grunt) {
 	// Default task.
 	grunt.registerTask('default', ['test', 'recess']);
 
+	// For Naught
 	grunt.registerTask('start', ['bgShell:start']);
-
 	grunt.registerTask('stop', ['bgShell:stop']);
 
 };
