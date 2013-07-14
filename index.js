@@ -11,19 +11,19 @@ var Feed = schema.define('Feeds', {
 	id:				{ type: Number },
 	title:			{ type: String, length: 255 },
 	link:			{ type: Schema.Text },
-	lastchecked:	{ type: Date,		default: Date.now },
+	last_checked:	{ type: Date,		default: Date.now },
 	added:			{ type: Date,		default: Date.now },
 });
 var Item = schema.define('Items', {
 	id:				{ type: Number },
-	feedId:			{ type: Number },
+	feed_id:		{ type: Number },
 	title:			{ type: String, length: 255 },
 	link:			{ type: Schema.Text },
 	author:			{ type: String, length: 255 },
 	added:			{ type: Date,		default: Date.now },
 });
 
-Item.belongsTo(Feed, {foreignKey: 'feedId'});
+Item.belongsTo(Feed, {foreignKey: 'feed_id'});
 
 // taken from http://jugglingdb.co/schema.3.html
 schema.isActual(function(err, actual) {
@@ -47,9 +47,11 @@ server.get("/", function(req, res, next){
 });
 
 // Modelled after http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
-// CREATE
 
-// New feed
+// CRUD for Feeds
+
+// CREATE
+// New Feed
 server.put("/feeds", function(req, res, next){
 	if (!req.body.url) {
 		res.send(200, "No url in post data");
@@ -68,8 +70,7 @@ server.put("/feeds", function(req, res, next){
 });
 
 // READ
-
-// TODO Returns a list of feeds
+// Returns a list of feeds
 server.get("/feeds", function(req, res, next){
 	Feed.all(function(err, feeds){
 		res.send(200, feeds);
@@ -77,17 +78,14 @@ server.get("/feeds", function(req, res, next){
 	});
 });
 
-// TODO Returns information about a single feed
+// Returns information about a single feed
 server.get("/feeds/:feed", function(req, res, next){
 	res.send(200, [{feed: req.params.feed}]);
 	return next();
 });
 
-// TODO Returns list of items for a feed
-
-// TODO Returns information about an item
-
 // UPDATE
+// TODO the feed checker should call this and update the title of the feed as well as the last_checked item
 
 // DELETE
 server.del("/feeds/:id", function(req, res, next){
@@ -114,7 +112,11 @@ server.del("/feeds/:id", function(req, res, next){
 	});
 });
 
-// ...
+// CRUD for Items
+// TODO CREATE
+// TODO READ
+// TODO UPDATE
+// TODO DELETE
 
 // Connect config here
 var connectApp = connect()
