@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html ng-app>
 <head>
 
 <meta charset="UTF-8" />
@@ -10,12 +10,15 @@
 <link rel="stylesheet" href="css/all.css" />
 
 </head>
-<body>
+<body ng-controller="FeedCtrl">
 
 <div class="container">
 	<h2>Reader</h2>
+	<h3 ng-repeat="feed in feeds">{{feed.title}}</h2>
 </div>
 
+<script src="js/angular.min.js"></script>
+<script src="js/angular-resource.min.js"></script>
 <script src="js/all.js"></script>
 
 </body>
