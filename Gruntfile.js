@@ -43,6 +43,14 @@ module.exports = function(grunt) {
 				}
 			},
 		bgShell: {
+			start: {
+				cmd: "node_modules/naught/lib/main.js start index.js",
+				bg: false,
+			},
+			stop: {
+				cmd: "node_modules/naught/lib/main.js stop",
+				bg: false,
+			},
 			deploy: {
 				cmd: "node_modules/naught/lib/main.js deploy",
 				bg: false,
@@ -80,5 +88,9 @@ module.exports = function(grunt) {
 
 	// Default task.
 	grunt.registerTask('default', ['test', 'recess']);
+
+	grunt.registerTask('start', ['bgShell:start']);
+
+	grunt.registerTask('stop', ['bgShell:stop']);
 
 };
