@@ -62,7 +62,6 @@ server.post("/feeds/create", function(req, res, next){
 // TODO Returns a list of feeds
 server.get("/feeds", function(req, res, next){
 	Feed.all(function(err, feeds){
-		console.log(feeds);
 		res.send(200, feeds);
 		return next();
 	});
@@ -81,6 +80,29 @@ server.get("/feeds/:feed", function(req, res, next){
 // UPDATE
 
 // DELETE
+server.del("/feeds/:id", function(req, res, next){
+	// make sure we have an id
+	if (!req.params.id) {
+		res.send(500, "ID of feed required");
+		return next();
+	}
+	// find the feed
+	Feed.find(req.params.id, function(err, feed){
+		if (err) {
+			res.send(500, err);
+			return next();
+		};
+		// delete the feed
+		feed.destroy(function(err) {
+			if (err) {
+				res.send(500, err);
+				return next();
+			}
+			res.send("deleted");
+			return next();
+		});
+	});
+});
 
 // ...
 
