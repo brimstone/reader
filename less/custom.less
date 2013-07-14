@@ -1,0 +1,70 @@
+@color-primary-highlight:	#F09000;
+@color-primary:				#FABD4A;
+@color-main:				#FFFFFF;
+@color-secondary-highlight:	#2A5769;
+@color-secondary:			#002E40;
+
+@navbar-bg:					@color-primary;
+@navbar-link-color:			@color-secondary;
+@navbar-inverse-bg:			@color-secondary;
+// @gray-light:				@color-primary-highlight;
+// @gray-lighter:				@color-main;
+@jumbotron-bg:				@color-main;
+
+@btn-default-bg:			@color-secondary;
+
+// from fixed navbar documentation
+body {
+	padding-top: 50px;
+	color:			@color-secondary;
+}
+
+// http://stackoverflow.com/questions/10128812/center-navbar-in-twitter-bootstrap-2-0
+.pull-center {
+	text-align: center;
+}
+.pull-center > .nav {
+	float:none;
+	display:inline-block;
+}
+
+// marketing
+.marketing {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.marketing .col-lg-4 {
+	margin-bottom:	20px;
+	text-align:		center;
+	padding-top: 5px;
+	padding-bottom: 10px;
+}
+@media (min-width: @screen-desktop) {
+.marketing .col-lg-4 {
+	width:			30%;
+	margin-left:	( 3.3333% / 2 );
+	margin-right:	( 3.3333% / 2 );
+}
+}
+.marketing h2 {
+	font-weight: normal;
+}
+.marketing .col-lg-4 p {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+// Shading
+.tinted {
+	background:		#eee;
+}
+
+.white {
+	background:		@color-main;
+}
+
+img {
+	width: 100%;
+	max-width: 140px;
+}
+// vim: filetype=css
