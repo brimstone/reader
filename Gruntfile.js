@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			gruntfile: ['Gruntfile.js'],
-			libs_n_tests: ['static/js/*.js', 'index.js'],
+			libs_n_tests: ['js/*.js', 'index.js'],
 			options: {
 				curly: true,
 				eqeqeq: true,
@@ -94,6 +94,12 @@ module.exports = function(grunt) {
 			naught: {
 				files:	['index.js'],
 				tasks: ['jshint', 'bgShell:deploy'],
+			},
+			html: {
+				files: ['static/js/all.js', 'static/index.html'],
+				options: {
+					livereload: true,
+				},
 			},
 		},
 	});
