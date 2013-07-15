@@ -1,11 +1,17 @@
 var restify = require('restify'),
-	connect = require('connect');
+	connect = require('connect'),
+	FeedParser = require('feedparser'),
+	request = require('request');
+
+
 
 var Schema = require('jugglingdb').Schema;
 var schema = new Schema('mysql', {
 	database: 'reader',
 	username: 'root'
 });
+
+// TODO do some sort of db sanity checking
 
 var Feed = schema.define('Feeds', {
 	id:				{ type: Number },
@@ -27,9 +33,9 @@ Item.belongsTo(Feed, {foreignKey: 'feed_id'});
 
 // taken from http://jugglingdb.co/schema.3.html
 schema.isActual(function(err, actual) {
-    if (!actual) {
-        schema.autoupdate();
-    }
+	if (!actual) {
+		schema.autoupdate();
+	}
 });
 
 // Restify server config here
@@ -139,3 +145,38 @@ process.on('message', function(message) {
 		process.exit(0);
 	}
 });
+
+function update_feeds() {
+	// get all feeds
+	Feed.all(function(err, feeds){
+		// loop through all of them
+		for(var feed in feeds) {
+			// reach out and grab the feed
+			request(feeds[feed].link)
+			.pipe(new FeedParser())
+			// when we get the meta information about the feed
+			.on('meta', function (meta) {
+				// check to see if we have a title for our feed
+				if (feeds[feed].title == null) {
+					// save it if we didn't
+					feeds[feed].title = meta.title;
+					feeds[feed].save(function(err){
+						// TODO handle failure to update
+						console.log("Updating Feed with title");
+					});
+				}
+			})
+			// this event is each article we find
+			.on('readable', function() {
+				var stream = this, item;
+				while (item = stream.read()) {
+					console.log('Got article:', item.guid, item.title, item.link, item.author, item.pubdate);
+					// TODO add item to database
+					// TODO handle failures to add items
+				}
+			});
+		}
+	});
+};
+
+setInterval(update_feeds, 60000);
