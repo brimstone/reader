@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="ReaderApp">
 <head>
 
 <meta charset="UTF-8" />
@@ -10,16 +10,19 @@
 <link rel="stylesheet" href="css/all.css" />
 
 </head>
-<body ng-controller="FeedCtrl">
+<body ng-controller="FeedCtlr">
 
 <div class="container">
 	<h2>Reader</h2>
-	<h3 ng-repeat="feed in feeds">{{feed.title}}</h2>
+	<ul>
+		<li ng-repeat="feed in feeds">{{feed.title}} {{feed.link}}</li>
+	</ul>
 </div>
 
 <script src="js/angular.min.js"></script>
 <script src="js/angular-resource.min.js"></script>
 <script src="js/all.js"></script>
+<script src="http://localhost:35729/livereload.js"></script>
 
 </body>
 </html>
