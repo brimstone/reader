@@ -15,7 +15,6 @@
   "dependencies": {
     "connect": "~2.8.4",
     "everyauth": "~0.4.5",
-    "restify": "~2.6.0",
     "bower": "~0.10.0",
     "grunt": "~0.4.1",
     "naught": "~0.4.4",
@@ -24,7 +23,8 @@
     "jugglingdb-mysql": "0.0.1-6",
     "jugglingdb": "~0.2.0-35",
     "detectfeed": "~0.1.7",
-    "feedparser": "~0.16.1"
+    "feedparser": "~0.16.1",
+    "connect-rest": "0.0.48"
   },
   "devDependencies": {
     "grunt-ngmin": "0.0.3",
