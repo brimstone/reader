@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="ReaderApp">
+<html ng-app="Reader_App">
 <head>
 
 <meta charset="UTF-8" />
@@ -10,13 +10,22 @@
 <link rel="stylesheet" href="css/all.css" />
 
 </head>
-<body ng-controller="FeedCtlr">
+<body>
 
-<div class="container">
+<div class="row">
+<div class="col-6" ng-controller="Feed_Ctlr">
 	<h2>Reader</h2>
 	<ul>
-		<li ng-repeat="feed in feeds">{{feed.title}} {{feed.link}}</li>
+		<li ng-repeat="feed in feeds"><a class="btn btn-primary" ng-click="update_feed(feed)">{{feed.title}}</a> {{feed.link}}</li>
 	</ul>
+</div>
+
+<div class="col-6" ng-controller="Item_Ctlr">
+	<h2>Items</h2>
+	<ul>
+		<li ng-repeat="item in items">{{item.title}}</li>
+	<ul>
+</div>
 </div>
 
 <script src="js/angular.min.js"></script>
