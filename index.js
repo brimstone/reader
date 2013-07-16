@@ -1,5 +1,5 @@
-var restify = require('restify'),
-	connect = require('connect'),
+var connect = require('connect'),
+	rest = require('connect-rest'),
 	FeedParser = require('feedparser'),
 	request = require('request');
 
@@ -39,22 +39,10 @@ schema.isActual(function(err, actual) {
 	}
 });
 
-// Restify server config here
-var server = restify.createServer({
-	name: 'restify-test',
-	version: '1.0.0',
-});
-
-// Redirect /api to /
-// This should probably go to /docs or something, for a proper api
-server.get("/", function(req, res, next){
-	res.header("Location", "/");
-	res.send(302);
-	return next();
-});
-
-require("./routes/feeds")(server, Feeds);
-require("./routes/items")(server, Feeds, Items);
+var restoptions = {
+	logger: { name: 'connect-rest', level: 'error' },
+	context: '/api'
+}
 
 // Connect config here
 var connectApp = connect()
@@ -63,15 +51,14 @@ var connectApp = connect()
 	.use(connect.query())
 	.use(connect.cookieParser())
 	.use(connect.static('static'))
-	// And this is where the magic happens
-	.use("/api", function (req, res) {
-		server.server.emit('request', req, res);
+	.use(rest.rester(restoptions))
+	.listen(8080, function(){
+		// this is for naught
+		if (process.send) { process.send('online');}
 	});
 
-connectApp.listen(8080, function(){
-	// this is for naught
-	if (process.send) { process.send('online');}
-});
+require("./routes/feeds")(rest, Feeds);
+require("./routes/items")(rest, Feeds, Items);
 
 // this is for naught
 process.on('message', function(message) {
@@ -111,13 +98,9 @@ function update_feeds() {
 					(function(item) {
 						Items.findOne({where: {guid: item.guid}}, function(err, res) {
 							// if we already have the item, bail on this one
-							if (!res == null)
+							if (res != null)
 								return;
 							console.log('Got article:', item.title, item.link, item.author, item.pubdate);
-							if (item == null) {
-								console.log("item is null, why?");
-								return;
-							}
 							newitem = new Items();
 							newitem.feed_id = feed.id;
 							newitem.guid = item.guid;
@@ -133,5 +116,5 @@ function update_feeds() {
 		}
 	});
 };
-update_feeds();
-setInterval(update_feeds, 60000);
+//update_feeds();
+//setInterval(update_feeds, 60000);
