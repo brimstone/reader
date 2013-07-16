@@ -12,6 +12,7 @@ server.put("/items", function(req, res, next){
 // READ
 // Returns a list of items
 server.get("/items", function(req, res, next){
+	console.log(req.query);
 	res.send(200, "stub");
 	return next();
 });
@@ -24,7 +25,7 @@ server.get("/items/:item", function(req, res, next){
 
 // UPDATE
 // TODO the feed checker should call this and update the title of the feed as well as the last_checked item
-server.put("/item/:id", function(req, res, next){
+server.put("/items/:id", function(req, res, next){
 	// make sure we have an id
 	if (!req.params.id) {
 		res.send(500, "ID of feed required");
@@ -35,7 +36,7 @@ server.put("/item/:id", function(req, res, next){
 });
 
 // DELETE
-server.del("/item/:id", function(req, res, next){
+server.del("/items/:id", function(req, res, next){
 	// make sure we have an id
 	if (!req.params.id) {
 		res.send(500, "ID of feed required");
