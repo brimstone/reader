@@ -22,9 +22,15 @@ function Feed_Ctlr($scope, $resource, Feed_Service) {
 };
 
 function Item_Ctlr($scope, $resource, Feed_Service) {
+	var Items = $resource('/api/items/:action');
 	$scope.items = [];
 	$scope.$on('updated_feed', function(){
-		console.log("We should go grab items based on", Feed_Service.current_feed);
+		feed = Feed_Service.current_feed;
+		$scope.items = Items.query({feed: feed.id}, function(data){
+			console.log($scope.items);
+		}, function(err) {
+			console.log(err);
+		});
 	});
 }
 
