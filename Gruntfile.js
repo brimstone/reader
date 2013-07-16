@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			gruntfile: ['Gruntfile.js'],
-			libs_n_tests: ['js/*.js', 'index.js'],
+			libs_n_tests: ['js/*.js', 'index.js', 'routes/*.js'],
 			options: {
 				curly: true,
 				eqeqeq: true,
