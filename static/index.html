@@ -13,23 +13,36 @@
 <body>
 
 <div class="row">
-<div class="col-6" ng-controller="Feed_Ctlr">
-	<h2>Reader</h2>
-	<ul>
-		<li ng-repeat="feed in feeds"><a class="btn btn-primary" ng-click="update_feed(feed)">{{feed.title}}</a> {{feed.link}}</li>
-	</ul>
-</div>
+	<div class="col-3" ng-controller="Feed_Ctlr">
+		<ul class="nav nav-pills nav-stacked">
+			<li ng-click="update_feed('all')">
+				<a href="#">
+					<span class="badge pull-right">6</span>
+					All Feeds
+				</a>
+			</li>
+			<li ng-click="update_feed(feed)" ng-repeat="feed in feeds">
+				<a href="#">
+					<span class="badge pull-right">42</span>
+					{{feed.title}}
+				</a>
+			</li>
+		</ul>
+	</div>
 
-<div class="col-6" ng-controller="Item_Ctlr">
-	<h2>Items</h2>
-	<ul>
-		<li ng-repeat="item in items">{{item.title}}</li>
-	<ul>
-</div>
+	<div class="col-9" ng-controller="Item_Ctlr">
+		<accordion close-others="true">
+			<accordion-group heading="item.title" completed="item.completed" ng-repeat="item in items">
+				{{item.text}}
+			</accordion-group>
+		</accordion>
+	</div>
 </div>
 
 <script src="js/angular.min.js"></script>
 <script src="js/angular-resource.min.js"></script>
+<script src="js/ui-bootstrap-custom-0.4.0.js"></script>
+<script src="js/ui-bootstrap-custom-tpls-0.4.0.js"></script>
 <script src="js/all.js"></script>
 <script src="http://localhost:35729/livereload.js"></script>
 

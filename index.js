@@ -28,6 +28,7 @@ var Items = schema.define('Items', {
 	link:			{ type: Schema.Text },
 	author:			{ type: String, length: 255 },
 	added:			{ type: Date,		default: Date.now },
+	text:			{ type: Schema.Text }
 });
 
 Items.belongsTo(Feeds, {foreignKey: 'feed_id'});
@@ -100,7 +101,7 @@ function update_feeds() {
 							// if we already have the item, bail on this one
 							if (res != null)
 								return;
-							console.log('Got article:', item.title, item.link, item.author, item.pubdate);
+							console.log('Got article:', item);
 							newitem = new Items();
 							newitem.feed_id = feed.id;
 							newitem.guid = item.guid;
@@ -108,6 +109,7 @@ function update_feeds() {
 							newitem.author = item.author;
 							newitem.pubdate = item.pubdate;
 							newitem.link = item.link;
+							newitem.text = item.description;
 							newitem.save(); // I don't think I care if this fails
 						});
 					})(item);
@@ -116,5 +118,5 @@ function update_feeds() {
 		}
 	});
 };
-//update_feeds();
+update_feeds();
 //setInterval(update_feeds, 60000);
