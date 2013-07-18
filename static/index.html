@@ -1,6 +1,5 @@
 <!doctype html>
-<html ng-app="Reader_App">
-<head>
+<html lang="en" ng-app="Reader_App">
 
 <meta charset="UTF-8" />
 <title>Reader</title>
@@ -8,9 +7,6 @@
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 
 <link rel="stylesheet" href="css/all.css" />
-
-</head>
-<body>
 
 <div class="row">
 	<div class="col-3" ng-controller="Feed_Ctlr">
@@ -33,7 +29,7 @@
 	<div class="col-9" ng-controller="Item_Ctlr">
 		<accordion close-others="true">
 			<accordion-group heading="item.title" completed="item.completed" ng-repeat="item in items">
-				{{item.text}}
+				<span ng-bind-html-unsafe="item.text"></span>
 			</accordion-group>
 		</accordion>
 	</div>
@@ -45,6 +41,3 @@
 <script src="js/ui-bootstrap-custom-tpls-0.4.0.js"></script>
 <script src="js/all.js"></script>
 <script src="http://localhost:35729/livereload.js"></script>
-
-</body>
-</html>
