@@ -1,4 +1,4 @@
-var Reader_App = angular.module( 'Reader_App', [ 'ui.bootstrap', 'ngResource' ] );
+var Reader_App = angular.module( 'Reader_App', [ 'ngResource' ] );
 
 Reader_App.factory("Feed_Service", function($rootScope) {
 		var Feed_Service = {};
